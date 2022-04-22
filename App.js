@@ -7,6 +7,7 @@ const App = () => {
 
   let calculate = () => {
     const text = resultText;
+    
   };
 
   let buttonPressed = value => {
@@ -43,18 +44,18 @@ const App = () => {
   }
 
 let  operate = (operator) => {
+  if(resultText.length === 0){
+    return;
+  }
     switch (operator) {
       case 'D':
         setResultText(resultText.slice(0, -1));
-        return;
+        break;
       case '+':
-        return this.state.firstNumber + this.state.secondNumber;
       case '-':
-        return this.state.firstNumber - this.state.secondNumber;
       case '*':
-        return this.state.firstNumber * this.state.secondNumber;
       case '/':
-        return this.state.firstNumber / this.state.secondNumber;
+        setResultText(resultText + operator);
       default:
         return 'error';
     }
