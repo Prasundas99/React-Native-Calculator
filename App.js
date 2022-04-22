@@ -7,7 +7,6 @@ const App = () => {
 
   let calculate = () => {
     const text = resultText;
-    
   };
 
   let buttonPressed = value => {
@@ -43,10 +42,11 @@ const App = () => {
     );
   }
 
-let  operate = (operator) => {
-  if(resultText.length === 0){
-    return;
-  }
+  let operate = operator => {
+    let lastChar = resultText.split('').pop();
+    if (resultText.length === 0) {
+      return;
+    }
     switch (operator) {
       case 'D':
         setResultText(resultText.slice(0, -1));
@@ -55,11 +55,14 @@ let  operate = (operator) => {
       case '-':
       case '*':
       case '/':
+        if (ops.indexOf(lastChar) > 0 || lastChar === '.') {
+          return;
+        }
         setResultText(resultText + operator);
       default:
         return 'error';
     }
-  }
+  };
 
   let ops = ['D', '+', '-', '*', '/'];
   let opRow = [];
