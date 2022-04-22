@@ -4,14 +4,33 @@ import {StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native';
 
 const App = () => {
   const [resultText, setResultText] = React.useState('');
+  const [calculationText, setCalculationText] = React.useState('');
 
   let calculate = () => {
     const text = resultText;
+    setCalculationText(eval(text));
+    return;
+  };
+
+  let Validate = () => {
+    const text = resultText;
+    if (
+      text.slice(-1) === '+' ||
+      text.slice(-1) === '-' ||
+      text.slice(-1) === '*' ||
+      text.slice(-1) === '/'
+    ) {
+      return false;
+    }
+    if (text.length === 0) {
+      return false;
+    }
+    return true;
   };
 
   let buttonPressed = value => {
     if (value === '=') {
-      return calculate();
+      return Validate() && calculate();
     }
     setResultText(resultText + value);
   };
@@ -72,7 +91,7 @@ const App = () => {
         onPress={() => operate(ops[i])}
         style={styles.btn}
         key={i + '-op'}>
-        <Text style={styles.btnText}>{ops[i]}</Text>
+        <Text style={styles.opsbtnText}>{ops[i]}</Text>
       </TouchableOpacity>,
     );
   }
@@ -83,7 +102,7 @@ const App = () => {
         <Text style={styles.resultText}>{resultText}</Text>
       </View>
       <View style={styles.calculation}>
-        <Text style={styles.calculationText}>0</Text>
+        <Text style={styles.calculationText}>{calculationText}</Text>
       </View>
       <View style={styles.buttons}>
         <View style={styles.numbers}>{rows}</View>
@@ -93,6 +112,10 @@ const App = () => {
   );
 };
 
+const calculatorColor = '#4354bc'
+const resultColor = '#b5b5b5'
+const operationsColor = '#f0f0f0'
+const operationsBackgroundColor = '#4354bc'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -105,13 +128,12 @@ const styles = StyleSheet.create({
   },
   result: {
     flex: 2,
-    backgroundColor: '#2c3e50',
     justifyContent: 'center',
     alignItems: 'flex-end',
   },
   resultText: {
     fontSize: 50,
-    color: '#fff',
+    color: calculatorColor,
   },
   row: {
     flexDirection: 'row',
@@ -121,16 +143,18 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: 30,
+    color:calculatorColor,
   },
   calculation: {
     flex: 1,
-    backgroundColor: '#27ae60',
     justifyContent: 'center',
     alignItems: 'flex-end',
   },
   calculationText: {
-    fontSize: 21,
-    color: '#fff',
+    fontSize: 27,
+    fontWeight: 'bold',
+    color: resultColor,
+    paddingRight: 10,
   },
   buttons: {
     flexGrow: 6,
@@ -138,14 +162,17 @@ const styles = StyleSheet.create({
   },
   numbers: {
     flex: 3,
-    backgroundColor: '#3498db',
   },
   operations: {
     flex: 1,
-    backgroundColor: '#e67e22',
     justifyContent: 'space-around',
     alignItems: 'center',
+    backgroundColor: operationsBackgroundColor,
   },
+  opsbtnText:{
+    fontSize: 30,
+    color: operationsColor,
+  }
 });
 
 export default App;
